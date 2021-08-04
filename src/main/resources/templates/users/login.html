@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head('Login')"></head>
+
+<script>
+    $(document).ready(function (){
+
+        var formObj = $("#users");
+
+        $("#btnLogin").on("click",function (){
+            formObj.attr("action", "/login");
+            formObj.attr("method", "post");
+            formObj.submit();
+        });
+
+    });
+</script>
+
+<body>
+
+<div th:insert="common/header.html" id="header"></div>
+<br><br><br>
+
+<div class="container">
+    <form id="users" th:action="@{/login}" th:object="${users}" method="post">
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" th:field="*{email}">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" th:field="*{password}">
+        </div>
+
+    </form>
+    <div class="form-group text-center">
+        <button type="submit" id="btnLogin" class="btn btn-primary">로그인</button>
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+    var result = [[${msg}]];
+
+    if(result){
+        alert(result)
+    }
+
+</script>
+
+<div th:insert="common/footer.html" id="footer"></div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/header :: head('Read')"></head>
+
+<script>
+    $(document).ready(function (){
+
+        var formObj = $("#posts");
+
+        console.log(formObj);
+
+        $("#btnModify").on("click",function (){
+            var id = $("#id");
+            var idVal = id.val();
+
+            self.location = "/modify?id=" + idVal;
+        });
+
+        $("#btnRemove").on("click", function (){
+            formObj.attr("action", "/remove");
+            formObj.submit();
+        });
+
+        $("#btnList").on("click",function (){
+                self.location="/";
+        });
+
+        $("#btnHome").on("click",function (){
+            self.location="/";
+        });
+
+    });
+</script>
+
+<body>
+
+<div th:insert="common/header.html" id="header"></div>
+<br><br><br>
+
+<div class="container">
+        <h3>상세보기</h3>
+        <hr/>
+
+        <form id ="posts"  th:object="${posts}" method="post">
+            <input type="hidden" name="id" th:field="*{id}">
+
+
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" name="title" class="form-control" id="title" th:field="*{title}">
+                </div>
+                <div class="form-group">
+                    <label for="users">작성자</label>
+                    <input type="text" name="users" class="form-control" id="users" th:value="*{users.name}" readonly="readonly">
+                </div>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea name="content" class="form-control" id="content" rows="10" th:field="*{content}"></textarea>
+                </div>
+
+        </form>
+    <div class="form-group text-right" id="loginBefore" th:if = "${posts.users != session.User}">
+        <button type="submit" id="btnList" class="btn btn-info">홈</button>
+    </div>
+
+    <div class="form-group text-right" id="loginAfter" th:if = "${posts.users == session.User}">
+        <button type="submit" id="btnModify" class="btn btn-warning">수정</button>
+        <button type="submit" id="btnRemove" class="btn btn-danger">삭제</button>
+        <button type="submit" id="btnHome" class="btn btn-info">홈</button>
+    </div>
+
+
+    <!-- 댓글 작성 -->
+    <h3 class="con">댓글</h3>
+    <hr/>
+
+    <div class="card" th:if = "${session.User != null}">
+        <form th:action="@{/comment/writer}" method="post">
+            <input type="hidden" id="usersId" name="usersId"  th:value="${posts.users.id}">
+            <input type="hidden" id="postsId" name="postsId" th:value="${posts.id}" />
+        <div>
+            <div class="card-body">
+                <textarea id="comment" name="comment" class="form-control" rows="1"></textarea>
+            </div>
+            <div class="card-footer" th:align="right">
+                <button id="btn-comment-save" class="btn btn-primary ">등록</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <br>
+
+
+    <!-- 댓글 목록 -->
+    <div class="card">
+        <div class="card-header">댓글 리스트</div>
+        <ul id="comments--box" class="list-group">
+            <li id="comments--1" class="list-group-item d-flex justify-content-between" th:each="comments : ${posts.comments}">
+                <div> <span th:text="${comments.comment}"></span></div>
+                <div class="d-flex">
+                    <div>작성자 : <span th:text="${comments.users?.name}"></span></div>&nbsp;
+                    <button class="badge">삭제</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+<div th:insert="common/footer.html" id="footer"></div>
+</body>
+</html>

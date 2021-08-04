@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head('MyExampleBLOG')"></head>
+
+<body>
+<!-- header-->
+<div th:insert="common/header.html" id="header"></div>
+<br><br><br>
+
+<div class="container">
+
+    <table class="table">
+
+        <thead class="thead-dark">
+        <tr>
+            <th style="width: 50%" class="title text-center">글제목</th>
+            <th style="width: 20%" class="user_id text-center">작성자</th>
+            <th style="width: 20%" class="created_at text-center">작성일</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="posts : ${posts.page}">
+            <td class="title text-center">
+                <a th:href="@{|/read/${posts.id}|}">
+                    <span th:text="${posts.title}"></span>
+                </a>
+            </td>
+            <td class="user_id text-center">
+                <span th:text="${posts.users.name}"></span>
+            </td>
+            <td class="created_at text-center">
+                <span th:text="${#temporals.format(posts.created_at , 'yyyy-MM-dd')}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation" class="paging">
+        <ul class="pagination justify-content-center" th:if="${posts.page.totalPages > 1}">
+            <li class="page-item" th:classappend="${!posts.paging.isPrevEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber - 1}}"
+                   tabindex="-1">Previous</a>
+            </li>
+            <th:block th:each="item : ${posts.paging.getItems()}">
+                <li class="page-item" th:classappend="${item.index == posts.paging.pageNumber? 'active' : ''}"
+                    th:if="${item.pageItemType.name() == 'PAGE'}">
+                    <a class="page-link" th:href="@{'/?pageNumber=' + ${item.index}}"
+                       th:text="${item.index}"></a>
+                </li>
+                <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                    <a class="page-link" href="#">...</a>
+                </li>
+            </th:block>
+            <li class="page-item" th:classappend="${!posts.paging.isNextEnabled()? 'disabled' : ''}">
+                <a class="page-link" th:href="@{'/?pageNumber=' + ${posts.paging.pageNumber + 1}}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+<script th:inline="javascript">
+    var result = [[${msg}]];
+
+    if(result){
+        alert(result)
+    }
+
+</script>
+
+<!-- footer -->
+<div th:insert="common/footer.html" id="footer"></div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head('Join')"></head>
+
+<script>
+    $(document).ready(function (){
+
+        var formObj = $("#user");
+
+        console.log(formObj);
+
+        $("#btnUpdate").on("click",function (){
+            formObj.attr("action", "/user/detail");
+            formObj.attr("method", "post");
+            formObj.submit();
+        });
+
+
+        $("#btnDelete").on("click", function (){
+            formObj.attr("action", "/user/delete");
+            formObj.submit();
+        });
+
+        $("#btnList").on("click",function (){
+            self.location="/";
+        });
+
+    });
+
+</script>
+
+
+
+<body>
+
+<div th:insert="common/header.html" id="header"></div>
+<br><br><br>
+
+<div class="container">
+
+    <div class="card text-center">
+        <div class="card-header">
+            회원정보
+        </div>
+    </div>
+
+    <form id="users"  th:action="@{/user/detail}" method="post">
+
+        <input type="hidden" name="userId" th:value="${session.User.id}">
+
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" id="email" th:value="${session.User.email}" readonly="readonly">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" th:value="${session.User.password}">
+        </div>
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control" id="name" th:value="${session.User.name}" readonly="readonly">
+        </div>
+
+        <div class="form-group">
+            <label for="address">주소</label>
+            <input type="text" class="form-control" id="address" th:value="${session.User.address}">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">휴대폰</label>
+            <input type="text" class="form-control" id="phone" th:value="${session.User.phone}">
+        </div>
+
+
+        <div class="form-group text-center">
+            <button type="submit" id="btnUpdate" class="btn btn-primary">수정</button>
+            <button type="submit" id="btnDelete" class="btn btn-danger">삭제</button>
+            <button type="submit" id="btnList" class="btn btn-info">홈</button>
+        </div>
+
+
+    </form>
+
+
+</div>
+<div th:insert="common/footer.html" id="footer"></div>
+</body>
+</html>

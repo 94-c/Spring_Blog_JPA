@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head('Join')"></head>
+
+<body>
+
+<div th:insert="common/header.html" id="header"></div>
+<br><br><br>
+
+<div class="container">
+
+    <div class="card text-center">
+        <div class="card-header">
+            회원가입
+        </div>
+    </div>
+
+
+    <form id="users" th:action="@{/users/join}" method="post" modelAttribut="userDTO">
+
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <label for="email">이메일</label>
+                <input  type="email" class="form-control" name="email" id="email" placeholder="Email">
+                <button class="btn btn-success" style="margin-top: 7px;"  type="button" onclick="emailCheck()">중복 확인</button>
+                <span style="color: red; font-size: 10pt" th:text="${valid_email}"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            <span  style="color: red; font-size: 10pt" th:text="${valid_password}"></span>
+        </div>
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" class="form-control"  name="name" id="name">
+            <span  style="color: red; font-size: 10pt" th:text="${valid_name}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="address">주소</label>
+            <input type="text" class="form-control" name="address" id="address" >
+            <span  style="color: red; font-size: 10pt" th:text="${valid_address}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">휴대폰</label>
+            <input type="text" class="form-control"  name="phone" id="phone">
+            <span  style="color: red; font-size: 10pt" th:text="${valid_phone}"></span>
+        </div>
+
+
+        <div class="form-group text-center">
+            <button type="submit" id="btnJoin" class="btn btn-primary">회원가입</button>
+            <button type="submit" id="btnList" class="btn btn-info">홈</button>
+        </div>
+
+
+    </form>
+
+
+</div>
+<div th:insert="common/footer.html" id="footer"></div>
+
+<script>
+    $(document).ready(function () {
+
+        var formObj = $("#users");
+
+        console.log(formObj);
+
+        $("#btnJoin").on("click", function () {
+            formObj.attr("action", "/user/join");
+            formObj.attr("method", "post");
+            formObj.submit();
+        });
+
+        $("#btnList").on("click", function () {
+            self.location = "/";
+        });
+    });
+
+    let checked = false;
+
+    function emailCheck(){
+        let email = $("#email").val();
+
+        $.ajax({
+                type: "POST",
+                url:"/emailCheck/",
+                data: email,
+                contentType: "text/pain; charset:utf-8",
+                dataType: "text"
+
+            }).done(function (data){
+                if(data === "ok"){
+                    alert("이미 존재하는 이메일 입니다");
+                    checked = false;
+                }else{
+                    alert("사용할 수 있는 이메일 입니다");
+                    checked = true;
+                }
+            }).fail(function (data){
+                alert("아무거나");
+            });
+        }
+
+
+</script>
+
+
+</body>
+</html>

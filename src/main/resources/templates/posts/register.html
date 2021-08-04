@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: head('MyExampleBLOG Insert')"></head>
+
+<script>
+    $(document).ready(function (){
+
+        var formObj = $("#posts");
+
+        $("#btnRegister").on("click",function (){
+            formObj.attr("action", "/register");
+            formObj.attr("method", "post");
+            formObj.submit();
+        });
+
+        $("#btnList").on("click",function (){
+                self.location="/";
+        });
+
+    });
+</script>
+
+<body>
+
+<div th:insert="common/header.html" id="header"></div>
+<br><br><br>
+
+<div class="container">
+        <h3>작성</h3>
+        <hr/>
+
+        <form id ="posts"  th:action="@{register}" method="post">
+
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력해주세요" >
+            </div>
+           <div class="form-group">
+               <label>작성자</label>
+               <input type="text"  class="form-control"  th:value="${session.User.name}" readonly="readonly">
+           </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea name="content" class="form-control" id="content" rows="10" ></textarea>
+            </div>
+
+        </form>
+
+
+    <div class="form-group text-right">
+        <button type="submit" id="btnRegister" class="btn btn-primary">등록</button>
+        <button type="submit" id="btnList" class="btn btn-info">홈</button>
+    </div>
+    </div>
+
+<div th:insert="common/footer.html" id="footer"></div>
+</body>
+</html>
