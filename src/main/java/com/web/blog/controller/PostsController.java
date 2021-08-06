@@ -1,15 +1,16 @@
 package com.web.blog.controller;
 
-import com.web.blog.dto.ResponseDTO;
 import com.web.blog.model.Posts;
 import com.web.blog.model.Users;
 import com.web.blog.service.CommentsService;
 import com.web.blog.service.PostsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;

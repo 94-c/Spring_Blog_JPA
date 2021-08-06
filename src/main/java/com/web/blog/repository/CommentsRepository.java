@@ -1,6 +1,5 @@
 package com.web.blog.repository;
 
-import com.web.blog.dto.CommentsDTO;
 import com.web.blog.model.Comments;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

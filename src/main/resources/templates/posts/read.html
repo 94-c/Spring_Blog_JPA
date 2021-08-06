@@ -41,8 +41,7 @@
     </div>
 
 
-<!--
-    &lt;!&ndash; 댓글 작성 &ndash;&gt;
+
     <h3 class="con">댓글</h3>
     <hr/>
 
@@ -65,7 +64,7 @@
     <br>
 
 
-    &lt;!&ndash; 댓글 목록 &ndash;&gt;
+    <!-- 댓글 목록 -->
     <div class="card">
         <div class="card-header">댓글 리스트</div>
         <ul id="comments&#45;&#45;box" class="list-group">
@@ -82,7 +81,7 @@
             </li>
         </ul>
         <hr/>
-        &lt;!&ndash; 댓글 페이징 &ndash;&gt;
+       <!-- &lt;!&ndash; 댓글 페이징 &ndash;&gt;
         <nav aria-label="Page navigation" class="paging">
             <ul class="pagination justify-content-center" th:if="${comments.page.totalPages > 1}">
                 <li class="page-item" th:classappend="${!comments.paging.isPrevEnabled()? 'disabled' : ''}">
@@ -102,33 +101,8 @@
                     <a class="page-link" th:href="@{'/read/' + ${posts.id} + '/?pageNumber=' + ${comments.paging.pageNumber + 1}}">Next</a>
                 </li>
             </ul>
-        </nav>
+        </nav>-->
     </div>
--->
-
-    <!-- 댓글 작성 -->
-    <h3 class="con">댓글</h3>
-    <hr/>
-
-    <div class="card" th:if = "${session.User != null}">
-        <form th:action="@{/comment/writer}" method="post">
-
-            <input type="hidden" id="usersId" name="usersId"  th:value="${session.User.id}">
-            <input type="hidden" id="postsId" name="postsId" th:value="${posts.id}" />
-
-            <div>
-                <div class="card-body">
-                    <textarea id="comment" name="comment" class="form-control" rows="1"></textarea>
-                </div>
-                <div class="card-footer" th:align="right">
-                    <button type="submit" id="btn-comment-save" class="btn btn-primary ">등록</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <br>
-
-    <div th:insert="comments/list.html" id="list"></div>
 </div>
 
 
