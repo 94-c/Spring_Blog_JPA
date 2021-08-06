@@ -63,7 +63,7 @@ public class PostsServiceImpl implements PostsService{
     @Override
     @Transactional(readOnly = true)
     public Paged<Posts> getPage(int pageNumber, int size) throws Exception {
-        PageRequest request = PageRequest.of(pageNumber - 1, size, Sort.Direction.ASC, "id");
+        PageRequest request = PageRequest.of(pageNumber - 1, size, Sort.Direction.DESC, "id");
         Page<Posts> postPage = postsRepository.findAll(request);
         return new Paged<>(postPage, Paging.of(postPage.getTotalPages(), pageNumber, size));
     }

@@ -3,36 +3,6 @@
 
 <head th:replace="common/header :: head('Read')"></head>
 
-<script>
-    $(document).ready(function (){
-
-        var formObj = $("#posts");
-
-        console.log(formObj);
-
-        $("#btnModify").on("click",function (){
-            var id = $("#id");
-            var idVal = id.val();
-
-            self.location = "/modify?id=" + idVal;
-        });
-
-        $("#btnRemove").on("click", function (){
-            formObj.attr("action", "/remove");
-            formObj.submit();
-        });
-
-        $("#btnList").on("click",function (){
-                self.location="/";
-        });
-
-        $("#btnHome").on("click",function (){
-            self.location="/";
-        });
-
-    });
-</script>
-
 <body>
 
 <div th:insert="common/header.html" id="header"></div>
@@ -77,14 +47,16 @@
 
     <div class="card" th:if = "${session.User != null}">
         <form th:action="@{/comment/writer}" method="post">
+
             <input type="hidden" id="usersId" name="usersId"  th:value="${posts.users.id}">
             <input type="hidden" id="postsId" name="postsId" th:value="${posts.id}" />
-        <div>
+
+            <div>
             <div class="card-body">
                 <textarea id="comment" name="comment" class="form-control" rows="1"></textarea>
             </div>
             <div class="card-footer" th:align="right">
-                <button id="btn-comment-save" class="btn btn-primary ">등록</button>
+                <button type="submit" id="btn-comment-save" class="btn btn-primary ">등록</button>
             </div>
         </div>
         </form>
@@ -100,7 +72,11 @@
                 <div> <span th:text="${comments.comment}"></span></div>
                 <div class="d-flex">
                     <div>작성자 : <span th:text="${comments.users?.name}"></span></div>&nbsp;
-                    <button class="badge">삭제</button>
+
+                    <div class="deleteComment" th:if="${session.User == comments.users}">
+                        <button class="badge">삭제</button>
+                    </div>
+
                 </div>
             </li>
         </ul>
@@ -110,5 +86,35 @@
 
 
 <div th:insert="common/footer.html" id="footer"></div>
+
+<script>
+    $(document).ready(function (){
+
+        var formObj = $("#posts");
+
+        console.log(formObj);
+
+        $("#btnModify").on("click",function (){
+            var id = $("#id");
+            var idVal = id.val();
+
+            self.location = "/modify?id=" + idVal;
+        });
+
+        $("#btnRemove").on("click", function (){
+            formObj.attr("action", "/remove");
+            formObj.submit();
+        });
+
+        $("#btnList").on("click",function (){
+            self.location="/";
+        });
+
+        $("#btnHome").on("click",function (){
+            self.location="/";
+        });
+
+    });
+</script>
 </body>
 </html>

@@ -42,10 +42,11 @@ public class PostsController {
 
     // 글 등록 기능
     @PostMapping("/register")
-    public ResponseDTO<Integer> register(@RequestBody Posts posts, HttpSession session, RedirectAttributes rttr) throws Exception{
+    public String register(Posts posts, HttpSession session, RedirectAttributes rttr) throws Exception{
         Users users = (Users) session.getAttribute("User");
         postsService.register(users, posts);
-        return new ResponseDTO<Integer>(HttpStatus.OK.value(), 1);
+        rttr.addFlashAttribute("msg", "작성이 완료되었습니다.");
+        return "redirect:/";
     }
 
 

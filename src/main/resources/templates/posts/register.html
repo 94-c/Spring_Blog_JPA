@@ -1,24 +1,8 @@
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <head th:replace="common/header :: head('MyExampleBLOG Insert')"></head>
-
-<script>
-    $(document).ready(function (){
-
-        var formObj = $("#posts");
-
-        $("#btnRegister").on("click",function (){
-            formObj.attr("action", "/register");
-            formObj.attr("method", "post");
-            formObj.submit();
-        });
-
-        $("#btnList").on("click",function (){
-                self.location="/";
-        });
-
-    });
-</script>
 
 <body>
 
@@ -55,4 +39,21 @@
 
 <div th:insert="common/footer.html" id="footer"></div>
 </body>
+<script>
+    $(document).ready(function (){
+
+        var formObj = $("#posts");
+
+        $("#btnRegister").on("click",function (){
+            formObj.attr("action", "/register");
+            formObj.attr("method", "post");
+            formObj.submit();
+        });
+
+        $("#btnList").on("click",function (){
+            self.location="/";
+        });
+
+    });
+</script>
 </html>
