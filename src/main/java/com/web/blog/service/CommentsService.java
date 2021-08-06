@@ -6,5 +6,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 
 public interface CommentsService {
 
+    //댓글 작성
     void commentSave(CommentsDTO commentsDTO);
 }
