@@ -3,6 +3,7 @@ package com.web.blog.controller;
 import com.web.blog.dto.ResponseDTO;
 import com.web.blog.model.Posts;
 import com.web.blog.model.Users;
+import com.web.blog.service.CommentsService;
 import com.web.blog.service.PostsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class PostsController {
 
     private final PostsService postsService;
 
-
+    private final CommentsService commentsService;
 
     @GetMapping("/")
     public String index(@RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
@@ -52,7 +53,7 @@ public class PostsController {
 
     // 상세보기
     @GetMapping("/read/{id}")
-    public String read(@PathVariable Integer id, Model model, HttpSession session) throws Exception{
+    public String read(@PathVariable Integer id, Model model) throws Exception{
         model.addAttribute("posts", postsService.read(id));
         System.out.println("글 상세보기 : " + id);
         return "/posts/read";

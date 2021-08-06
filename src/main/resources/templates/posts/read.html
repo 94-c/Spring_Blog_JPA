@@ -41,7 +41,8 @@
     </div>
 
 
-    <!-- 댓글 작성 -->
+<!--
+    &lt;!&ndash; 댓글 작성 &ndash;&gt;
     <h3 class="con">댓글</h3>
     <hr/>
 
@@ -64,11 +65,11 @@
     <br>
 
 
-    <!-- 댓글 목록 -->
+    &lt;!&ndash; 댓글 목록 &ndash;&gt;
     <div class="card">
         <div class="card-header">댓글 리스트</div>
-        <ul id="comments--box" class="list-group">
-            <li id="comments--1" class="list-group-item d-flex justify-content-between" th:each="comments : ${posts.comments}">
+        <ul id="comments&#45;&#45;box" class="list-group">
+            <li id="comments&#45;&#45;1" class="list-group-item d-flex justify-content-between" th:each="comments : ${posts.comments}">
                 <div> <span th:text="${comments.comment}"></span></div>
                 <div class="d-flex">
                     <div>작성자 : <span th:text="${comments.users?.name}"></span></div>&nbsp;
@@ -80,8 +81,54 @@
                 </div>
             </li>
         </ul>
+        <hr/>
+        &lt;!&ndash; 댓글 페이징 &ndash;&gt;
+        <nav aria-label="Page navigation" class="paging">
+            <ul class="pagination justify-content-center" th:if="${comments.page.totalPages > 1}">
+                <li class="page-item" th:classappend="${!comments.paging.isPrevEnabled()? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{'/read/' + ${posts.id} + '/?pageNumber=' + ${comments.paging.pageNumber - 1}}"
+                       tabindex="-1">Previous</a>
+                </li>
+                <th:block th:each="item : ${comments.paging.getItems()}">
+                    <li class="page-itme" th:classappend="${item.index == comments.paging.pageNumber? 'active' : ''}"
+                        th:if="${item.pageItemType.name() == 'PAGE'}">
+                        <a class="page-link" th:href="@{'/read/' + ${posts.id} + '/?pageNumber=' + ${item.index}}" th:text="${item.index}"></a>
+                    </li>
+                    <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:classappend="${!comments.paging.isNextEnabled()? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{'/read/' + ${posts.id} + '/?pageNumber=' + ${comments.paging.pageNumber + 1}}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
+-->
 
+    <!-- 댓글 작성 -->
+    <h3 class="con">댓글</h3>
+    <hr/>
+
+    <div class="card" th:if = "${session.User != null}">
+        <form th:action="@{/comment/writer}" method="post">
+
+            <input type="hidden" id="usersId" name="usersId"  th:value="${session.User.id}">
+            <input type="hidden" id="postsId" name="postsId" th:value="${posts.id}" />
+
+            <div>
+                <div class="card-body">
+                    <textarea id="comment" name="comment" class="form-control" rows="1"></textarea>
+                </div>
+                <div class="card-footer" th:align="right">
+                    <button type="submit" id="btn-comment-save" class="btn btn-primary ">등록</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+
+    <div th:insert="comments/list.html" id="list"></div>
 </div>
 
 
@@ -90,9 +137,14 @@
 <script>
     $(document).ready(function (){
 
+        var result = [[${msg}]];
         var formObj = $("#posts");
 
         console.log(formObj);
+
+        if(result){
+            alert(result)
+        }
 
         $("#btnModify").on("click",function (){
             var id = $("#id");

@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 public class CommentsDTO {
 
     @NotBlank
+    private Integer id;
+
+    @NotBlank
     private Integer usersId;
 
     @NotBlank
@@ -26,7 +29,8 @@ public class CommentsDTO {
     @Override
     public String toString() {
         return "CommentsDTO{" +
-                "usersId=" + usersId +
+                "id=" + id +
+                ", usersId=" + usersId +
                 ", postsId=" + postsId +
                 ", comment='" + comment + '\'' +
                 ", created_at=" + created_at +
