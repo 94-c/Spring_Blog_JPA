@@ -48,7 +48,7 @@
     <div class="card" th:if = "${session.User != null}">
         <form th:action="@{/comment/writer}" method="post">
 
-            <input type="hidden" id="usersId" name="usersId"  th:value="${posts.users.id}">
+            <input type="hidden" id="usersId" name="usersId"  th:value="${session.User.id}">
             <input type="hidden" id="postsId" name="postsId" th:value="${posts.id}" />
 
             <div>
